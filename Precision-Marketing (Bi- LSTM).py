@@ -31,7 +31,8 @@ market类的主要目的是分析新浪微博的博文数据（爬取的标签�
 '''
 class market():
 
-'''
+
+    '''
 name: read_vectors
 function（函数的功能）: 载入预训练的词向量库中的前topn个词向量
 input:词向量库的存放路径(path), 导入的词语数目(topn)
@@ -42,8 +43,7 @@ output: 词向量的维度数（self.dim，如每个词语提取了300个特征�
 整数字典（self.index_word，每一个整数对应一个词语编码，该词典意义不大，已弃用。）
 词向量(self.vectors，返回的结果是一个字典。每一个词语对应着dim个特征，如果dim=300，则每一个词都对应着一个1×300的向量，
 比如{"的"：array[0.525421355,0.15235234,......],"非常":array[0.3535353111,0.3543636321,......]})
-'''''
-
+'''
     def read_vectors(self,path, topn):  
         lines_num, dim = 0, 0
         vectors = {}
@@ -70,7 +70,8 @@ output: 词向量的维度数（self.dim，如每个词语提取了300个特征�
         self.index_word = iw
         self.vectors = vectors
         print("Load %s word vectors." % len(vectors))
-'''
+
+        '''
 name: add_stopwords
 function: 导入停用词库
 input:停用词库的存放路径(path)
@@ -84,7 +85,8 @@ output: 停用词集合（self.stopwords，返回的结果是一个集合(set)�
                 stopwords.add(line.strip())
         self.stopwords = stopwords
         print("Load %s stopwords" %len(stopwords))    
-'''
+
+        '''
 name: add_stopwords
 function: 构建Embedding矩阵，该矩阵维度数目为 词语数量 × 特征数量（比如10000×300），在神经网络中通过该层，
 可以将每个词语编码成300个维度的密集向量
@@ -99,7 +101,8 @@ output: Embedding矩阵（embedding_matrix）
                 if embedding_vector is not None:
                     embedding_matrix[i] = embedding_vector
         return embedding_matrix
-'''
+
+    '''
 name: word_cut
 function: 将博文分割成几个词语
 input: 储存博文的文档（documents。该文档是一个不定长的list，长度为博文数量，但宽度未知（因为博文不定长），
@@ -119,7 +122,8 @@ output: 按照一定规则，将博文切割成词语后的文档（texts，该�
             texts.append(text)
         self.docLength = len(documents)
         return(texts)
-'''
+
+    '''
 name: frequency
 function: 按照词语的出现频次过滤掉某些低频次
 input: 切割成词语后的文档（texts）,允许的最低出现频率（freq，比如freq=5，意味着删掉在所有词语中出现次数 <= 5的词语）
@@ -132,7 +136,8 @@ output: 过滤后的文档(texts)
                 frequency[word] += 1
         texts = [[word for word in text if frequency[word] > freq] for text in texts]
         return(texts)
-'''
+
+    '''
 name: recoding
 function: 将词语编码成整数形式，如果词典（word_index）中没有该词语，则编码为-1
 input: 过滤后的文档(texts)，词典（word_index）
@@ -147,7 +152,8 @@ output: 将词语按照整数编码后的文档(texts)
                     sample[j] = word_index[word]
             texts[i] = sample
         return(texts)
-'''
+
+    '''
 name: delete
 function: 将文档中编码为-1的记录删去
 input: 将词语按照整数编码后的文档(docs)
@@ -159,7 +165,8 @@ output: 删除了所有编码为-1的记录的文档（docs）
                 if docs[index][i] == -1:
                     docs[index].pop(i)
         return docs
-'''
+
+    '''
 name: random_pick
 function: 对不担忧的样本做欠采样，比如不担忧的样本有936个，担忧的样本有300个，则欠采样的结果是从不担忧的936个样本里面随机选取300个
 input: 需要欠采样的数据框（df），欠采样之后的样本数量（n）
@@ -174,7 +181,8 @@ output: 欠采样后的数据框(df)
     
     
 
-'''
+
+    '''
 因为预训练的词向量库中已预含词典，所以该函数被废弃
     def dictionary(self,docs):
         token_index ={}
@@ -185,7 +193,7 @@ output: 欠采样后的数据框(df)
         return(token_index)
 '''
 
-'''
+    '''
 因为预训练的词向量库中已预含词典，所以该函数被废弃
     def count(self,docs):
         token_length ={}
@@ -198,7 +206,7 @@ output: 欠采样后的数据框(df)
         return(token_length)
 '''   
 
-'''
+    '''
 因为暂停了文本聚类项目，所以该函数被废弃
     def regroup(self,texts):
         new_texts = []
